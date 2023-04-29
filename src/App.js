@@ -9,17 +9,18 @@ import NewUser from './pages/newUser/NewUser';
 import ProductList from './pages/productList/ProductList';
 import Product from './pages/product/Product';
 import NewProduct from './pages/newProduct/NewProduct';
-import { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
-import headers from './authHeader';
+import LoginPage from './pages/loginPage/LoginPage';
 
 function App() {
   return (
     <Router>
-      <Topbar />
-      <div className="container">
-        <Sidebar />
-        <Switch>
+      <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Topbar />
+        <div className="container">
+          <Sidebar />
           <Route exact path="/">
             <Home />
           </Route>
@@ -41,8 +42,8 @@ function App() {
           <Route path="/newcontent">
             <NewProduct />
           </Route>
-        </Switch>
-      </div>
+        </div>
+      </Switch>
     </Router>
   );
 }
