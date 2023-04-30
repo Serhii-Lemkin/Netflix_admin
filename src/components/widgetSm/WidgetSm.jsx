@@ -2,7 +2,6 @@ import './widgetSm.css';
 import { Visibility } from '@material-ui/icons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import headers from '../../authHeader';
 
 export default function WidgetSm() {
   const [newUsers, setNewUsers] = useState([]);
@@ -10,8 +9,12 @@ export default function WidgetSm() {
   useEffect(() => {
     const getNewUsers = async () => {
       try {
-        const res = await axios.get('users/admin/find-all?new=true', headers);
-        console.log(res.data);
+        const res = await axios.get('users/admin/find-all?new=true', {
+          headers: {
+            authorization:
+              'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+          },
+        });
         setNewUsers(res.data);
       } catch (error) {
         console.log(error);
@@ -24,8 +27,8 @@ export default function WidgetSm() {
     <div className="widgetSm">
       <span className="widgetSmTitle">New Join Members</span>
       <ul className="widgetSmList">
-        {newUsers.map((user) => (
-          <li className="widgetSmListItem">
+        {newUsers.map((user, i) => (
+          <li className="widgetSmListItem" key={i}>
             <img
               src={user.profilePicture || 'https://i.pravatar.cc/300'}
               alt=""

@@ -5,7 +5,6 @@ import WidgetSm from '../../components/widgetSm/WidgetSm';
 import WidgetLg from '../../components/widgetLg/WidgetLg';
 import axios from 'axios';
 import { useState, useMemo, useEffect } from 'react';
-import headers from '../../authHeader';
 
 export default function Home() {
   const MONTHS = useMemo(
@@ -31,10 +30,15 @@ export default function Home() {
   useEffect(() => {
     const getStats = async () => {
       try {
-        const res = await axios.get('/users/admin/stats', headers);
-        const statsList = res.data.sort(function(a,b) {
+        const res = await axios.get('/users/admin/stats', {
+          headers: {
+            authorization:
+              'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+          },
+        });
+        const statsList = res.data.sort(function (a, b) {
           return a._id - b._id;
-        })
+        });
         statsList.map((item) =>
           setUserStats((prev) => [
             ...prev,

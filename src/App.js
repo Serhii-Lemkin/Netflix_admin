@@ -10,39 +10,50 @@ import ProductList from './pages/productList/ProductList';
 import Product from './pages/product/Product';
 import NewProduct from './pages/newProduct/NewProduct';
 import LoginPage from './pages/loginPage/LoginPage';
+import { useContext } from 'react';
+import { AuthContext } from './context/auth/AuthContext';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 function App() {
+  const { user } = useContext(AuthContext);
+
   return (
     <Router>
       <Switch>
         <Route path="/login">
-          <LoginPage />
+          {user ? <Redirect to="/" /> : <LoginPage />}
         </Route>
-        <Topbar />
-        <div className="container">
-          <Sidebar />
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/users">
-            <UserList />
-          </Route>
-          <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
-          <Route path="/content">
-            <ProductList />
-          </Route>
-          <Route path="/content/:contentId">
-            <Product />
-          </Route>
-          <Route path="/newcontent">
-            <NewProduct />
-          </Route>
-        </div>
+        {!user ? (
+          <Redirect to="/login" />
+        ) : (
+          <>
+            <Topbar />
+            <div className="container">
+              <Sidebar />
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/users">
+                <UserList />
+              </Route>
+              <Route path="/user/:userId">
+                <User />
+              </Route>
+              <Route path="/newUser">
+                <NewUser />
+              </Route>
+              <Route path="/content">
+                <ProductList />
+              </Route>
+              <Route path="/newcontent">
+                <NewProduct />
+              </Route>
+              <Route path="/content/:contentId">
+                <Product />
+              </Route>
+            </div>
+          </>
+        )}
       </Switch>
     </Router>
   );

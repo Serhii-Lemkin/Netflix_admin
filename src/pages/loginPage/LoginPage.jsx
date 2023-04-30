@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
 import './LoginPage.css';
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { loginCall } from '../../context/auth/AuthApiCalls';
 
@@ -21,11 +20,17 @@ function LoginPage() {
           type="text"
           placeholder="email"
           className="loginInput"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            console.log(e.target.value);
+          }}
         />
 
         <input
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            console.log(e.target.value);
+          }}
           type="password"
           placeholder="password"
           className="loginInput"
@@ -34,7 +39,7 @@ function LoginPage() {
           className="LoginButton"
           onClick={handleLogin}
           disabled={isFetching}
-        > 
+        >
           Login
         </button>
       </form>
